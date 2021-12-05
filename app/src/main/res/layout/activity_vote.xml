@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+
+    <TextView
+            android:id="@+id/tvVote_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:padding="5dp" />
+
+    <!--android:text="@string/tvVote_question"-->
+    <RatingBar
+            android:id="@+id/starsRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:rating="0"/>
+
+    <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="@string/editTextTextPersonName"
+            android:autofillHints="@string/editTextTextPersonName"/>
+    <Button
+            android:id="@+id/btn_Vote"
+            android:text="@string/btn_Vote"
+            android:backgroundTint="@color/greyblue"
+            android:layout_width="325dp"
+            android:layout_height="wrap_content"/>
+
+
+</LinearLayout>

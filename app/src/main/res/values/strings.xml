@@ -1,0 +1,28 @@
+<resources>
+    <!-- Layout main -->
+    <string name="app_name">VoteDroid</string>
+    <string name="btn_ajouter">AJOUTER</string>
+
+    <!-- Layout ajout de question -->
+    <string name="textView_question">Ta question</string>
+    <string name="btn_poserQuestion">Pose la question</string>
+
+
+    <!-- Menu strings -->
+    <string name="menu_supprimer_questions">Supprimer toutes les questions</string>
+    <string name="menu_supprimer_votes">Supprimer tous les votes</string>
+
+    <!-- Écran de vote -->
+    <string name="tvVote_question" >Que penses-tu de l\'ascension de Skywalker ?</string>
+    <string name="editTextTextPersonName" >Nom du votant</string>
+    <string name="btn_Vote">Vote</string>
+
+    <!-- Écran de résultat-->
+    <string name="tVTitre_results" >"C'est comment la programmation Android ?"</string>
+    <string name="tVMoyenne" >Moyenne : </string>
+    <string name="tVEcart_type" >Écart-type : </string>
+    <string name="tVMoyenne_result" >4.29</string>
+    <string name="tVEcart_type_results" >0.88</string>
+
+
+</resources>
