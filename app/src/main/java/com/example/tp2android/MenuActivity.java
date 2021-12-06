@@ -1,6 +1,5 @@
 package com.example.tp2android;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import com.example.tp2android.bd.BD;
-import com.example.tp2android.exceptions.MauvaiseQuestion;
-import com.example.tp2android.modele.VDQuestion;
 import com.example.tp2android.service.ServiceImplementation;
 
 public class MenuActivity extends AppCompatActivity {
@@ -40,17 +37,17 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int Id = item.getItemId();
-        switch (Id) {
-            case R.id.action_questions:
-                effacerQuestions();
-
-                return true;
-            case R.id.action_votes:
-                // do something
-                effacerVotes();
-                return true;
-            default: return super.onOptionsItemSelected(item);
+        if (Id == R.id.action_questions) {
+            effacerQuestions();
+            return true;
         }
+        if (Id == R.id.action_votes){
+            // do something
+            effacerVotes();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+
     }
 
     //Methode pour effacer toutes les questions

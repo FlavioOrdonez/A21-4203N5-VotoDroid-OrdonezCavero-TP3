@@ -13,6 +13,7 @@ import androidx.room.Room;
 import com.example.tp2android.bd.BD;
 import com.example.tp2android.databinding.ActivityResultatsBinding;
 import com.example.tp2android.databinding.ActivityVoteBinding;
+import com.example.tp2android.modele.VDQuestion;
 import com.example.tp2android.service.ServiceImplementation;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -37,6 +38,7 @@ public class ResultatsActivity extends AppCompatActivity {
     private ServiceImplementation service;///
     private TextView moyenneText;
     private TextView ecartText;
+    private TextView questionText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,17 +52,23 @@ public class ResultatsActivity extends AppCompatActivity {
                 .build();
         service = ServiceImplementation.getInstance(maBD);
 
+        int position = getIntent().getIntExtra("questionId", -1);//Récupere le id de questionAdapter
+
+
         //Pour afficher le design de activity_question
         binding = ActivityResultatsBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
         //Ajouter dans manifest une activity
 
+        questionText = (TextView) findViewById(R.id.tVTitre_results);
+        questionText.setText(maBD.monDao().recupererQuestions().get(position).texteQuestion);//Met le txt correspondant a la question
+
         moyenneText = (TextView) findViewById(R.id.tVMoyenne_result);
-        moyenneText.setText(String.valueOf(service.moyenneVotes()));
+        moyenneText.setText(String.valueOf(service.moyenneVotes(position)));
 
         ecartText = (TextView) findViewById(R.id.tVEcart_type_results);
-        ecartText.setText(String.valueOf(service.ecartTypeVotes()));
+        ecartText.setText(String.valueOf(service.ecartTypeVotes(position)));
 
 
         /*POUR LE GRAPHIQUE */

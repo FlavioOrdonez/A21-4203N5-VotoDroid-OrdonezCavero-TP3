@@ -67,10 +67,10 @@ public class ServiceImplementation {
         return maBD.monDao().recupererQuestions();
     }
 
-    public float moyenneVotes() {
+    public float moyenneVotes(float questionId) {
+        List<VDVote> listVotes = recupererListSelonQuestion(questionId);
         float total = 0;
         int i = 0;
-        List<VDVote> listVotes =  maBD.monDao().recupererVotes();
         while(i < listVotes.size()){
             total += listVotes.get(i).rating;
             i++;
@@ -78,9 +78,9 @@ public class ServiceImplementation {
         return total / listVotes.size();
     }
 
-    public float ecartTypeVotes() {
-        List<VDVote> listVotes = maBD.monDao().recupererVotes();
-        float moyenne = moyenneVotes();
+    public float ecartTypeVotes(float questionId) {
+        List<VDVote> listVotes =  recupererListSelonQuestion(questionId);
+        float moyenne = moyenneVotes((int)questionId);
         float total =0;
         for (int i = 0; i< listVotes.size(); i++){
             float etapeUn = (listVotes.get(i).rating - moyenne); //Chaques valeurs moins moyenne
@@ -90,7 +90,23 @@ public class ServiceImplementation {
         float variance = total/listVotes.size();//resulat de la variance
         return (float)java.lang.Math.sqrt(variance);//Variance racine^2 = ecart type
     }
+
     public Map<Integer, Integer> distributionVotes() {
         return null;
+    }
+
+
+    //Recupere tous les votes d'une question passée en parametre
+    public List<VDVote> recupererListSelonQuestion(float questionId){
+        VDQuestion q = maBD.monDao().recupererQuestions().get((int)questionId);
+        List<VDVote> listVotes =  maBD.monDao().recupererVotes();
+
+        for(int j = listVotes.size() -1; j >= 0; j--){
+            VDVote v = listVotes.get(j);
+            if (!v.idQuestion.equals(q.idQuestion)){
+                listVotes.remove(v);
+            }
+        }
+        return listVotes;
     }
 }

@@ -81,6 +81,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(view.getContext(), ResultatsActivity.class);
+                    i.putExtra("questionId", position );//Passes des donnes dans une autre activite
                     view.getContext().startActivity(i);
                 }
             });

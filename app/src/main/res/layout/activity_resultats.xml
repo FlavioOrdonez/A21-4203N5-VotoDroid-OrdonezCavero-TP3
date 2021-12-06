@@ -6,7 +6,6 @@
 
     <TextView
             android:id="@+id/tVTitre_results"
-            android:text="@string/tVTitre_results"
             android:textSize="25sp"
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"

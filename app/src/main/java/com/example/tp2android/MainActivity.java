@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         binding.btnAjouter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                service.moyenneVotes();
                 Intent i = new Intent(MainActivity.this,
                         QuestionActivity.class);
                 startActivity(i);
