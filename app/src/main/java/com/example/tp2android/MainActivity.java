@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.tp2android.bd.BD;
 import com.example.tp2android.databinding.ActivityMainBinding;
@@ -57,15 +59,30 @@ public class MainActivity extends AppCompatActivity {
         this.remplirRecycler();
 
     }
-
+    /* MENU */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_menu, menu);
         return true;
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int Id = item.getItemId();
+        if (Id == R.id.action_questions) {
+            effacerQuestions();
+            return true;
+        }
+        if (Id == R.id.action_votes){
+            effacerVotes();
+            Toast.makeText(getApplicationContext(),"Tous les votes ont été effacés",Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
 
+    }
 
-    //Méthode pour initialiser le RV
+    //region MÉTHODES
+    //Méthode -Recycler- pour initialiser le RV
     private void initRecycler() {
         RecyclerView recyclerView = findViewById(R.id.recyclerView); //récupere le RV
         recyclerView.setHasFixedSize(true);
@@ -78,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         qAdapater = new QuestionAdapter();
         recyclerView.setAdapter(qAdapater);
     }
-
+    //Méthode -Recycler- pour remplir le RV
     private void remplirRecycler() {
         for(int i = 0; i < service.toutesLesQuestions().size(); i++){
             Question q = new Question();
@@ -89,4 +106,35 @@ public class MainActivity extends AppCompatActivity {
         }
         qAdapater.notifyDataSetChanged();
     }
+
+    //Methode -Menu- pour effacer toutes les questions
+    private void effacerQuestions(){
+        try{
+            maBD.monDao().effacerVotesALL();
+            maBD.monDao().effacerQuestionsALL();
+            int size = qAdapater.list.size();
+            qAdapater.list.clear();
+            qAdapater.notifyItemRangeRemoved(0, size);
+            if(size == 0){
+                Toast.makeText(getApplicationContext(),"Aucune question à effacer",Toast.LENGTH_SHORT).show();
+            }
+            else if (size == 1){
+                Toast.makeText(getApplicationContext(),size +" question effacée",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getApplicationContext(),size +" questions effacées",Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            Log.e("EFFACERQUESTIONS", "Impossible d'effacer les questions" );
+        }
+    }
+    //Methode -Menu- pour effacer tous les votes
+    private void effacerVotes(){
+        try{
+            maBD.monDao().effacerVotesALL();
+        }catch (Exception e){
+            Log.e("EFFACERVOTES", "Impossible d'effacer les votes" );
+        }
+    }
+    //endregion
 }

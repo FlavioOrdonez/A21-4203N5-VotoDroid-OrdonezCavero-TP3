@@ -8,8 +8,17 @@ import com.example.tp2android.exceptions.MauvaiseQuestion;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class ServiceImplementation {
 
@@ -62,9 +71,33 @@ public class ServiceImplementation {
     
     public List<VDQuestion> toutesLesQuestions() {
         //TODO Trier la liste reçue en BD par nombre de votes et la retourner
+        List<VDQuestion> listQuestions = maBD.monDao().recupererQuestions();
+        List<VDVote> listVote = maBD.monDao().recupererVotes();
+        for(int j = 0; j< listQuestions.size(); j++) {
+            int cpt = 0;
+            VDQuestion actualQuest = listQuestions.get(j);
+            for (int i = 0; i < listVote.size(); i++) {
+                VDVote v = listVote.get(i);
 
-       // new ArrayList<>() maBD.monDao().recupererQuestions();
-        return maBD.monDao().recupererQuestions();
+                if(actualQuest.idQuestion.equals(v.idQuestion)){
+                    cpt++;
+                }
+            }
+            actualQuest.nbreVote = cpt;
+        }
+        //Trier la liste selon nombre de vote du plus petit au plus grand
+        for(int i = 0 ; i < listQuestions.size();i++) {
+            for (int j = i + 1; j < listQuestions.size(); j++) {
+                if (listQuestions.get(i).nbreVote > listQuestions.get(j).nbreVote) {
+                    int temp = listQuestions.get(i).nbreVote;
+                    listQuestions.get(i).nbreVote = listQuestions.get(j).nbreVote;
+                    listQuestions.get(j).nbreVote = temp;
+                }
+            }
+        }
+        //Inverse la liste
+        Collections.reverse(listQuestions);
+        return listQuestions;
     }
 
     public float moyenneVotes(float questionId) {
@@ -91,16 +124,21 @@ public class ServiceImplementation {
         return (float)java.lang.Math.sqrt(variance);//Variance racine^2 = ecart type
     }
 
-    public Map<Integer, Integer> distributionVotes() {
-        return null;
+    public Map<Integer, Integer> distributionVotes(Integer idQuestion) {
+        List<VDVote> votes = recupererListSelonQuestion(idQuestion);
+        Map<Integer, Integer> mapVoteValue = new HashMap<>();
+        for (int i = 0; i < votes.size(); i++){
+            Long voteId = votes.get(i).idVote;
+            int rating = (int)votes.get(i).rating;
+            mapVoteValue.put( voteId.intValue(), rating);
+        }
+        return mapVoteValue;
     }
-
 
     //Recupere tous les votes d'une question passée en parametre
     public List<VDVote> recupererListSelonQuestion(float questionId){
         VDQuestion q = maBD.monDao().recupererQuestions().get((int)questionId);
         List<VDVote> listVotes =  maBD.monDao().recupererVotes();
-
         for(int j = listVotes.size() -1; j >= 0; j--){
             VDVote v = listVotes.get(j);
             if (!v.idQuestion.equals(q.idQuestion)){

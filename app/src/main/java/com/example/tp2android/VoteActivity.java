@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -76,8 +77,10 @@ public class VoteActivity extends AppCompatActivity {
             monVote.rating = rating.getRating();
             monVote.nomVotant = voteNom.getText().toString();
             service.creerVote(monVote);
+            Toast.makeText(getApplicationContext(),"Vote crée avec succès",Toast.LENGTH_SHORT).show();
         }catch (MauvaisVote m){
             Log.e("CREERVOTE", "Impossible de créer le vote : " + m.getMessage());
+            Toast.makeText(getApplicationContext(),m.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
 }

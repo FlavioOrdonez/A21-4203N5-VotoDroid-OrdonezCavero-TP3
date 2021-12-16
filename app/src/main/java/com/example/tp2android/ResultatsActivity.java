@@ -54,7 +54,6 @@ public class ResultatsActivity extends AppCompatActivity {
 
         int position = getIntent().getIntExtra("questionId", -1);//Récupere le id de questionAdapter
 
-
         //Pour afficher le design de activity_question
         binding = ActivityResultatsBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
@@ -100,6 +99,8 @@ public class ResultatsActivity extends AppCompatActivity {
 
 
         /* Data and function call to bind the data to the graph */
+        Map<Integer, Integer> dataGraph = service.distributionVotes(position);
+        /*
         Map<Integer, Integer> dataGraph = new HashMap<Integer, Integer>() {{
             put(0,0);//change les valeurs
             put(1,0);
@@ -108,7 +109,7 @@ public class ResultatsActivity extends AppCompatActivity {
             put(4, 1);
             put(5, 4);
 
-        }};
+        }};*/
         setData(dataGraph);
     }
 

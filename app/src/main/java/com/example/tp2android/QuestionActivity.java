@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,8 +62,11 @@ public class QuestionActivity extends AppCompatActivity {
             VDQuestion maQuestion = new VDQuestion();
             maQuestion.texteQuestion = questionText.getText().toString();
             service.creerQuestion(maQuestion);
+            Toast.makeText(getApplicationContext(),"Question créée avec succès",Toast.LENGTH_SHORT).show();
+
         }catch (MauvaiseQuestion m){
             Log.e("CREERQUESTION", "Impossible de créer la question : " + m.getMessage());
+            Toast.makeText(getApplicationContext(),m.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
 }
