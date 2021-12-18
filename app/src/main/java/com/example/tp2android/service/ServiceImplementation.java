@@ -100,8 +100,8 @@ public class ServiceImplementation {
         return listQuestions;
     }
 
-    public float moyenneVotes(float questionId) {
-        List<VDVote> listVotes = recupererListSelonQuestion(questionId);
+    public float moyenneVotes(int position) {
+        List<VDVote> listVotes = recupererListSelonQuestion(position);
         float total = 0;
         int i = 0;
         while(i < listVotes.size()){
@@ -111,9 +111,9 @@ public class ServiceImplementation {
         return total / listVotes.size();
     }
 
-    public float ecartTypeVotes(float questionId) {
-        List<VDVote> listVotes =  recupererListSelonQuestion(questionId);
-        float moyenne = moyenneVotes((int)questionId);
+    public float ecartTypeVotes(int position) {
+        List<VDVote> listVotes =  recupererListSelonQuestion(position);
+        float moyenne = moyenneVotes((int)position);
         float total =0;
         for (int i = 0; i< listVotes.size(); i++){
             float etapeUn = (listVotes.get(i).rating - moyenne); //Chaques valeurs moins moyenne
@@ -124,8 +124,8 @@ public class ServiceImplementation {
         return (float)java.lang.Math.sqrt(variance);//Variance racine^2 = ecart type
     }
 
-    public Map<Integer, Integer> distributionVotes(Integer idQuestion) {
-        List<VDVote> votes = recupererListSelonQuestion(idQuestion);
+    public Map<Integer, Integer> distributionVotes(Integer position) {
+        List<VDVote> votes = recupererListSelonQuestion(position);
         Map<Integer, Integer> mapVoteValue = new HashMap<>();
         for (int i = 0; i < votes.size(); i++){
             Long voteId = votes.get(i).idVote;
@@ -136,8 +136,8 @@ public class ServiceImplementation {
     }
 
     //Recupere tous les votes d'une question passée en parametre
-    public List<VDVote> recupererListSelonQuestion(float questionId){
-        VDQuestion q = maBD.monDao().recupererQuestions().get((int)questionId);
+    private List<VDVote> recupererListSelonQuestion(int position){
+        VDQuestion q = maBD.monDao().recupererQuestions().get(position);
         List<VDVote> listVotes =  maBD.monDao().recupererVotes();
         for(int j = listVotes.size() -1; j >= 0; j--){
             VDVote v = listVotes.get(j);

@@ -24,6 +24,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +40,7 @@ public class ResultatsActivity extends AppCompatActivity {
     private TextView moyenneText;
     private TextView ecartText;
     private TextView questionText;
+    private static final DecimalFormat df = new DecimalFormat("0.00");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,10 +66,10 @@ public class ResultatsActivity extends AppCompatActivity {
         questionText.setText(maBD.monDao().recupererQuestions().get(position).texteQuestion);//Met le txt correspondant a la question
 
         moyenneText = (TextView) findViewById(R.id.tVMoyenne_result);
-        moyenneText.setText(String.valueOf(service.moyenneVotes(position)));
+        moyenneText.setText(String.valueOf(df.format(service.moyenneVotes(position))));
 
         ecartText = (TextView) findViewById(R.id.tVEcart_type_results);
-        ecartText.setText(String.valueOf(service.ecartTypeVotes(position)));
+        ecartText.setText(String.valueOf(df.format(service.ecartTypeVotes(position))));
 
 
         /*POUR LE GRAPHIQUE */
@@ -100,16 +102,6 @@ public class ResultatsActivity extends AppCompatActivity {
 
         /* Data and function call to bind the data to the graph */
         Map<Integer, Integer> dataGraph = service.distributionVotes(position);
-        /*
-        Map<Integer, Integer> dataGraph = new HashMap<Integer, Integer>() {{
-            put(0,0);//change les valeurs
-            put(1,0);
-            put(2,0);
-            put(3, 2);
-            put(4, 1);
-            put(5, 4);
-
-        }};*/
         setData(dataGraph);
     }
 
